@@ -43,7 +43,7 @@ const Home = () => {
                 setTodos(updatedTodos);
                 setTaskid('');
                 setUpdatetask('');
-                Window.location.reload();
+                window.location.reload(); 
             })
             .catch(err => console.log(err));
     };
@@ -66,25 +66,39 @@ const Home = () => {
                     todos.map((todo) => (
                         <div className='task' key={todo._id}>
                             <div className='checkbox'>
-                                {todo.done ? <BsFillCheckCircleFill className='icon' /> :
-                                    <BsCircleFill className='icon' onClick={() => edit(todo._id)} />}
+                                {todo.done ? 
+                                    <BsFillCheckCircleFill className='icon' /> :
+                                    <BsCircleFill className='icon' onClick={() => edit(todo._id)} />
+                                }
+
                                 {taskid === todo._id ?
-                                    <input type='text' value={updatetask} onChange={e => setUpdatetask(e.target.value)} />
+                                    <input 
+                                        type='text' 
+                                        value={updatetask} 
+                                        onChange={e => setUpdatetask(e.target.value)} 
+                                    />
                                     :
                                     <p className={todo.done ? 'through' : 'normal'}>{todo.task}</p>
                                 }
                             </div>
+
                             <div>
                                 <span>
-                                    <BsPencil className='icon' onClick={() => {
-                                        if (taskid === todo._id) {
-                                            Update(todo._id, updatetask);
-                                        } else {
-                                            setTaskid(todo._id);
-                                            setUpdatetask(todo.task);
-                                        }
-                                    }} />
-                                    <BsFillTrashFill className='icon' onClick={() => Hdelete(todo._id)} />
+                                    <BsPencil 
+                                        className='icon' 
+                                        onClick={() => {
+                                            if (taskid === todo._id) {
+                                                Update(todo._id, updatetask);
+                                            } else {
+                                                setTaskid(todo._id);
+                                                setUpdatetask(todo.task);
+                                            }
+                                        }} 
+                                    />
+                                    <BsFillTrashFill 
+                                        className='icon' 
+                                        onClick={() => Hdelete(todo._id)} 
+                                    />
                                 </span>
                             </div>
                         </div>
