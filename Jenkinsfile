@@ -87,14 +87,23 @@ pipeline {
     }
   }
 
-  post {
+  post{
+    always{
+        emailext{
+            subject: "pipeline status: ${currentBuild.result}",
+            body: '''<html>
+                        <body>
+                            <p>Build Status: ${currentBuild.result}</p>
+                            <p>Build Number: ${currentBuild.Number}</p>
+                            <p>check the <a href="${env.BUILD_URL}">console output</a></p>
+                             </body>
+                             </html>''',
 
-    success {
-      echo " Pipeline completed successfully!"
+                        to:'ananeysinghal04@gmail.com',
+                        from:'jenkins@example.com',
+                        replyTo: 'jenkins@example.com',
+                        minetype: 'text/html'
+        }
     }
-    failure {
-      echo " Pipeline failed!"
-    }
-
   }
 }
