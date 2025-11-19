@@ -90,7 +90,7 @@ pipeline {
   post{
     always{
         emailext{
-            subject: "pipeline status: ${currentBuild.result}",
+            subject: "Pipeline Status: ${currentBuild.result}",
             body: '''<html>
                         <body>
                             <p>Build Status: ${currentBuild.result}</p>
