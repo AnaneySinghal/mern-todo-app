@@ -30,12 +30,15 @@ pipeline {
       }
     }
 
-    stage('Install Frontend Deps & Build') {
-      steps {
-        dir('TODO/todo_frontend') {
-          echo " Installing frontend dependencies and building app..."
-          bat 'npm ci'
-          bat 'npm run build'
+    stage('Frontend Install & Build') {
+          steps {
+            dir('TODO/todo_frontend') {
+              withEnv(["PATH+NODEJS=${tool 'Node18'}"]) {
+                bat 'npm install'
+                bat 'npm run build'
+              }
+            }
+          }
         }
       }
     }
