@@ -54,13 +54,18 @@ pipeline {
       }
     }
 
-   stage('Wait for Quality Gate') {
-  steps {
-    timeout(time: 25 , unit: 'MINUTES') {
-      waitForQualityGate abortPipeline: true
+   stage('Quality Gate') {
+      steps {
+        timeout(time: 5, unit: 'MINUTES') { // reduced timeout
+          script {
+            def qg = waitForQualityGate()
+            if (qg.status != 'OK') {
+              error "❌ Pipeline stopped: Quality Gate FAILED"
+            }
+          }
+        }
+      }
     }
-  }
-}
 
 
     stage('Package Artifacts') {
@@ -99,8 +104,6 @@ post {
                         </body>
                      </html>''',
             to: 'ananeysinghal04@gmail.com',
-            from: 'jenkins@example.com',
-            replyTo: 'jenkins@example.com',
             mimeType: 'text/html'
         )
     }
