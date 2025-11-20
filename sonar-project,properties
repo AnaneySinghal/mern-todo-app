@@ -6,11 +6,26 @@ sonar.projectName=mern-todo-app
 sonar.host.url=http://localhost:9000
 sonar.token=sqp_e50df189e5d521606d67a3b19ceef0e4ab971601
 
-# Source folders (adjust if needed)
+# --- REQUIRED CHANGES START HERE ---
+
+# 1. Source folders 
+# It's generally better to define the frontend and backend separately if you want specific analysis rules.
+# If this works for you, keep it, but ensure all necessary files are included.
 sonar.sources=TODO/todo_backend,TODO/todo_frontend/src
 
-# Ignore large/unnecessary files
-sonar.exclusions=**/node_modules/**,**/build/**,**/dist/**,**/.next/**,**/.cache/**
+# 2. Define where your Test Files are located (Crucial for Coverage)
+# Add the path where your test files reside. This helps SonarQube distinguish tests from source.
+sonar.tests=TODO/todo_frontend/test,TODO/todo_backend/test
+
+# 3. Ignore Test Reports and Coverage Directories (Fixes 'base.css' issue)
+# Use 'sonar.test.exclusions' to explicitly ignore the directories that contain coverage reports 
+# (which caused the 'lcov-report/base.css' issue).
+sonar.test.exclusions=**/coverage/**,**/lcov-report/**,**/*.spec.js,**/*.test.js
+
+# --- REQUIRED CHANGES END HERE ---
+
+# Ignore large/unnecessary files (Kept existing and added a common one for MERN)
+sonar.exclusions=**/node_modules/**,**/build/**,**/dist/**,**/.next/**,**/.cache/**,**/.vscode/**
 
 # Encoding
 sonar.sourceEncoding=UTF-8
