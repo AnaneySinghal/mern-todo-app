@@ -51,6 +51,7 @@ pipeline {
               -Dsonar.sources=TODO/todo_backend,TODO/todo_frontend ^
               -Dsonar.host.url=http://localhost:9000 ^
               -Dsonar.login=%SONAR_TOKEN%
+              -Dsonar.exclusions=**/coverage/**,**/lcov-report/**,**/node_modules/**
           """
         }
       }
