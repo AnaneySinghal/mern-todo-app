@@ -3,11 +3,11 @@ pipeline {
 
   tools {
     nodejs 'Node18'
-   
+    
   }
 
   environment {
-    SONAR_TOKEN = credentials('Sonar_token')  
+    SONAR_TOKEN = credentials('Sonar_token') 
     NEXUS_CREDS = credentials('nexus-creds')
     NEXUS_URL = "http://localhost:8081"
     NEXUS_REPO = "raw-release"
@@ -31,17 +31,16 @@ pipeline {
     }
 
     stage('Frontend Install & Build') {
-          steps {
-            dir('TODO/todo_frontend') {
-              withEnv(["PATH+NODEJS=${tool 'Node18'}"]) {
-                bat 'npm install'
-                bat 'npm run build'
-              }
-            }
+      steps {
+        dir('TODO/todo_frontend') {
+          withEnv(["PATH+NODEJS=${tool 'Node18'}"]) {
+            bat 'npm install'
+            bat 'npm run build'
           }
         }
       }
-    }
+    } 
+    // The two incorrect closing braces were removed here.
 
     stage('SonarQube Analysis') {
       steps {
@@ -57,7 +56,7 @@ pipeline {
       }
     }
 
-   stage('Quality Gate') {
+    stage('Quality Gate') {
       steps {
         timeout(time: 5, unit: 'MINUTES') { // reduced timeout
           script {
@@ -93,23 +92,24 @@ pipeline {
         """
       }
     }
-  }
+  } // Correct closing brace for the main 'stages' block.
 
-post {
+
+   post {
     always {
-        emailext(
-            subject: "Pipeline Status: ${currentBuild.result}",
-            body: '''<html>
-                        <body>
-                            <p>Build Status: ${currentBuild.result}</p>
-                            <p>Build Number: ${currentBuild.number}</p>
-                            <p>Check the <a href="${env.BUILD_URL}">console output</a></p>
-                        </body>
-                     </html>''',
-            to: 'ananeysinghal04@gmail.com',
-            mimeType: 'text/html'
-        )
+      // CORRECTED: Reverting to the simple HTML structure as requested
+      emailext(
+        subject: "Pipeline Status: ${currentBuild.result}",
+        body: """<html>
+                      <body>
+                          <p>Build Status: ${currentBuild.result}</p>
+                          <p>Build Number: ${currentBuild.number}</p>
+                          <p>Check the <a href="${env.BUILD_URL}">console output</a></p>
+                      </body>
+                  </html>""",
+        to: 'ananeysinghal04@gmail.com',
+        mimeType: 'text/html'
+      )
     }
-}
-
+  }
 }
