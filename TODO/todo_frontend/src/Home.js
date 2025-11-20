@@ -43,7 +43,7 @@ const Home = () => {
                 setTodos(updatedTodos);
                 setTaskid('');
                 setUpdatetask('');
-                window.location.reload(); 
+                globalThis.location.reload(); 
             })
             .catch(err => console.log(err));
     };
